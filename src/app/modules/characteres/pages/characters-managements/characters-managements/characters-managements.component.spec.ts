@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CharacteresManagementsComponent } from './characteres-managements.component';
+import { CharactersManagementsComponent } from './characters-managements.component';
 
 describe('CharacteresManagementsComponent', () => {
-  let component: CharacteresManagementsComponent;
-  let fixture: ComponentFixture<CharacteresManagementsComponent>;
+  let component: CharactersManagementsComponent;
+  let fixture: ComponentFixture<CharactersManagementsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CharacteresManagementsComponent]
+      imports: [CharactersManagementsComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(CharacteresManagementsComponent);
+
+    fixture = TestBed.createComponent(CharactersManagementsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
