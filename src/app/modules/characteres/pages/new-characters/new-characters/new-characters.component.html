@@ -1,1 +1,22 @@
-<p>new-characters works!</p>
+<po-page-dynamic-search p-title="Adicionar Personagem Favorito" [p-filters]="[{ property: 'name' }]">
+  <div class="po-row">
+    <div class="po-lg-6 po-md-6 po-sm-12 po-mb-3">
+      <po-widget
+        class="po-row"
+        p-title="Rick Sanchez"
+        [p-primary]="false"
+        p-primary-label="Adicionar"
+        (p-primary-action)="addCharacter()"
+      >
+        <po-avatar class="po-md-4" p-size="lg" [p-src]="avatar"></po-avatar>
+        <div class="po-md-8">
+          <p><strong>Name:</strong>Rick Sanchez</p>
+          <p><strong>Genero:</strong>Masculino</p>
+        </div>
+      </po-widget>
+    </div>
+  </div>
+  <div class="po-d-flex po-justify-center">
+    <po-button class="po-md-3" p-label="Carregar mais resultados" (p-click)="moreCharacter()"> </po-button>
+  </div>
+</po-page-dynamic-search>
