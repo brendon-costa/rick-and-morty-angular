@@ -11,14 +11,6 @@ import {
 
 @Component({
   selector: 'app-characters-managements',
-  standalone: true,
-  imports: [
-    PoPageModule,
-    PoPageDynamicTableModule,
-    PoModalModule,
-    PoDynamicModule,
-    PoLoadingModule
-  ],
   templateUrl: './characters-managements.component.html',
   styleUrl: './characters-managements.component.scss'
 })

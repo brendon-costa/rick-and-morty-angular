@@ -2,19 +2,27 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CharacteresRoutingModule } from './characteres-routing.module';
 import {
+  PoAvatarModule, PoButtonModule,
   PoDividerModule,
   PoDynamicModule, PoFieldModule,
   PoLoadingModule,
   PoModalModule,
   PoPageModule,
   PoStepperModule,
-  PoTableModule
+  PoTableModule, PoWidgetModule
 } from "@po-ui/ng-components";
-import {PoPageDynamicTableModule} from "@po-ui/ng-templates";
+import {PoPageDynamicSearchModule, PoPageDynamicTableModule} from "@po-ui/ng-templates";
+import {NewCharactersComponent} from "./pages/new-characters/new-characters/new-characters.component";
+import {
+  CharactersManagementsComponent
+} from "./pages/characters-managements/characters-managements/characters-managements.component";
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    NewCharactersComponent,
+    CharactersManagementsComponent,
+  ],
   imports: [
     CommonModule,
     CharacteresRoutingModule,
@@ -27,6 +35,10 @@ import {PoPageDynamicTableModule} from "@po-ui/ng-templates";
     PoStepperModule,
     PoFieldModule,
     PoDividerModule,
+    PoPageDynamicSearchModule,
+    PoWidgetModule,
+    PoAvatarModule,
+    PoButtonModule,
   ]
 })
 export class CharactersModule { }
