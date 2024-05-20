@@ -2,9 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {CharacterService} from "../../../services/character.service";
 import {CharacterResultModel} from "../../../model/character.model";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {PoPageDynamicSearchFilters, PoPageDynamicSearchLiterals} from "@po-ui/ng-templates";
 import {ForceOptionComponentEnum} from "@po-ui/ng-components";
+import {AppState} from "../../../../../core/model/app-state.model";
+import {Store} from "@ngrx/store";
+import {addCharacter, deleteCharacter, updateCharacter } from '../../../state/actions/characteres.actions';
 
 @Component({
   selector: 'app-new-characters',
@@ -18,6 +21,8 @@ export class NewCharactersComponent implements OnInit {
   loading = false;
   subscriptions: Subscription[] = [];
   advancedSearchParams: any;
+  characters$: Observable<CharacterResultModel[]>;
+  favoriteCharacters: CharacterResultModel[] = [];
   readonly customLiterals: PoPageDynamicSearchLiterals = {
     quickSearchLabel: 'Nome:',
   };
@@ -45,7 +50,15 @@ export class NewCharactersComponent implements OnInit {
 
   constructor(
     private characterService: CharacterService,
-  ) {  }
+    private store: Store<AppState>
+  ) {
+    this.characters$ = store.select('characters');
+    this.characters$.subscribe(response => {
+      this.favoriteCharacters = response;
+      console.log(this.favoriteCharacters);
+      this.checkAdded();
+    })
+  }
 
   ngOnInit() {
     this.getAll(1);
@@ -56,6 +69,7 @@ export class NewCharactersComponent implements OnInit {
     const subscription = this.characterService.getAll(page, params).subscribe({
       next: (response) => {
         this.characterList = [...this.characterList, ...response.results];
+        this.checkAdded();
         this.loading = false;
       },
       error: (error: HttpErrorResponse) => {
@@ -63,6 +77,18 @@ export class NewCharactersComponent implements OnInit {
       }
     });
     this.subscriptions.push(subscription);
+  }
+
+  checkAdded() {
+    this.favoriteCharacters.forEach(favorite => {
+      this.characterList = this.characterList.map(character => {
+        if (character.id == favorite.id) {
+          return {...character, added: true};
+        } else {
+          return character;
+        }
+      });
+    });
   }
 
   fastSearch(search: string) {
@@ -84,7 +110,6 @@ export class NewCharactersComponent implements OnInit {
       params[item.property] = item.value;
     });
     this.advancedSearchParams = params;
-    console.log(this.advancedSearchParams);
     this.getAll(this.currentPage, this.advancedSearchParams);
   }
 
@@ -98,7 +123,15 @@ export class NewCharactersComponent implements OnInit {
     this.getAll(this.currentPage, this.advancedSearchParams);
   }
 
-  addCharacter() {
-    console.log('addCharacter');
+  addCharacterOrDelete(character: CharacterResultModel) {
+    if (!character?.added) {
+      this.store.dispatch(addCharacter({ character }));
+    } else {
+      this.store.dispatch(deleteCharacter({ characterId: character.id }));
+    }
+  }
+
+  updateCharacter(character: CharacterResultModel) {
+    this.store.dispatch(updateCharacter({ character }));
   }
 }

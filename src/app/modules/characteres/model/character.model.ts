@@ -13,6 +13,7 @@ export interface CharacterInfoModel {
 
 export interface CharacterResultModel {
   id: number;
+  added: boolean;
   name: string;
   status: string;
   species: string;
