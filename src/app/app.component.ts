@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 
 import {
   PoMenuItem,
@@ -29,7 +29,12 @@ export class AppComponent {
     { label: 'Personagens', action: this.onClick.bind(this) },
   ];
 
+  constructor(
+    private router: Router
+  ) {
+  }
+
   private onClick() {
-    alert('Clicked in menu item');
+    this.router.navigate(['/']).then();
   }
 }

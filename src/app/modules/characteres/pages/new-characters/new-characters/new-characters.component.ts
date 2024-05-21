@@ -4,7 +4,7 @@ import {CharacterResultModel} from "../../../model/character.model";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Observable, Subscription} from "rxjs";
 import {PoPageDynamicSearchFilters, PoPageDynamicSearchLiterals} from "@po-ui/ng-templates";
-import {ForceOptionComponentEnum} from "@po-ui/ng-components";
+import {ForceOptionComponentEnum, PoBreadcrumb} from "@po-ui/ng-components";
 import {AppState} from "../../../../../core/model/app-state.model";
 import {Store} from "@ngrx/store";
 import {addCharacter, deleteCharacter, updateCharacter } from '../../../state/actions/characteres.actions';
@@ -23,6 +23,9 @@ export class NewCharactersComponent implements OnInit {
   advancedSearchParams: any;
   characters$: Observable<CharacterResultModel[]>;
   favoriteCharacters: CharacterResultModel[] = [];
+  readonly breadcrumb: PoBreadcrumb = {
+    items: [{ label: 'Personagens', link: '/' }, { label: 'Adicionar Personagem Favorito' }]
+  };
   readonly customLiterals: PoPageDynamicSearchLiterals = {
     quickSearchLabel: 'Nome:',
   };
@@ -55,7 +58,6 @@ export class NewCharactersComponent implements OnInit {
     this.characters$ = store.select('characters');
     this.characters$.subscribe(response => {
       this.favoriteCharacters = response;
-      console.log(this.favoriteCharacters);
       this.checkAdded();
     })
   }
@@ -80,6 +82,9 @@ export class NewCharactersComponent implements OnInit {
   }
 
   checkAdded() {
+    this.characterList = this.characterList.map(character => {
+      return {...character, added: false};
+    });
     this.favoriteCharacters.forEach(favorite => {
       this.characterList = this.characterList.map(character => {
         if (character.id == favorite.id) {
