@@ -52,7 +52,7 @@ export class NewCharactersComponent implements OnInit, OnDestroy {
 
   constructor(
     private characterService: CharacterService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) {  }
 
   ngOnInit() {
