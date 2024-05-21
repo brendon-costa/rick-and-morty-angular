@@ -9,20 +9,11 @@
 >
   <div class="po-row">
     <div *ngFor="let character of characterList" class="po-lg-6 po-md-6 po-sm-12 po-mb-3">
-      <po-widget
-        class="po-row"
-        [p-primary]="character.added"
-        [p-primary-label]="character.added ? 'Remover' : 'Adicionar'"
-        (p-primary-action)="addCharacterOrDelete(character)"
-      >
-        <po-avatar class="po-md-4 po-sm-8" p-size="lg" [p-src]="character.image"></po-avatar>
-        <div class="po-md-8 po-sm-8">
-          <p><strong>Nome:</strong> {{character.name}}</p>
-          <p><strong>Gênero:</strong> {{character.gender}}</p>
-          <p><strong>Espécie:</strong> {{character.species}}</p>
-          <p><strong>Status:</strong> {{character.status}}</p>
-        </div>
-      </po-widget>
+      <app-character-card
+        [character]="character"
+        (addAction)="addCharacter($event)"
+        (deleteAction)="deleteCharacter($event)"
+      ></app-character-card>
     </div>
   </div>
   <div class="po-d-flex po-justify-center po-mb-3">

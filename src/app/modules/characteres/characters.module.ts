@@ -16,12 +16,14 @@ import {NewCharactersComponent} from "./pages/new-characters/new-characters/new-
 import {
   CharactersManagementsComponent
 } from "./pages/characters-managements/characters-managements/characters-managements.component";
+import {CharacterCardComponent} from "./pages/new-characters/character-card/character-card.component";
 
 
 @NgModule({
   declarations: [
     NewCharactersComponent,
     CharactersManagementsComponent,
+    CharacterCardComponent,
   ],
   imports: [
     CommonModule,

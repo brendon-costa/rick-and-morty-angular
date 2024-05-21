@@ -1,0 +1,17 @@
+<ng-container *ngIf="character">
+  <po-widget
+    class="po-row"
+    [p-primary]="character.added"
+    [p-primary-label]="character?.added ? 'Remover' : 'Adicionar'"
+    (p-primary-action)="buttonAction()"
+  >
+    <po-avatar class="po-md-4 po-sm-8" p-size="lg" [p-src]="character.image"></po-avatar>
+    <div class="po-md-8 po-sm-8">
+      <p><strong>Nome:</strong> {{character.name}}</p>
+      <p><strong>Gênero:</strong> {{character.gender}}</p>
+      <p><strong>Espécie:</strong> {{character.species}}</p>
+      <p><strong>Status:</strong> {{character.status}}</p>
+    </div>
+  </po-widget>
+</ng-container>
+

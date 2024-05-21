@@ -136,11 +136,11 @@ export class NewCharactersComponent implements OnInit, OnDestroy {
     this.getAll(this.currentPage, this.advancedSearchParams);
   }
 
-  addCharacterOrDelete(character: CharacterResultModel) {
-    if (!character?.added) {
-      this.store.dispatch(addCharacter({ character }));
-    } else {
-      this.store.dispatch(deleteCharacter({ characterId: character.id }));
-    }
+  addCharacter(character: CharacterResultModel) {
+    this.store.dispatch(addCharacter({ character }));
+  }
+
+  deleteCharacter(id: number) {
+    this.store.dispatch(deleteCharacter({ characterId: id }));
   }
 }
