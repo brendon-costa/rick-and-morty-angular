@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CharacterService} from "../../../services/character.service";
 import {CharacterResultModel} from "../../../model/character.model";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -14,14 +14,13 @@ import {addCharacter, deleteCharacter, updateCharacter } from '../../../state/ac
   templateUrl: './new-characters.component.html',
   styleUrl: './new-characters.component.scss'
 })
-export class NewCharactersComponent implements OnInit {
+export class NewCharactersComponent implements OnInit, OnDestroy {
 
   characterList: CharacterResultModel[] = [];
   currentPage: number = 1;
   loading = false;
   subscriptions: Subscription[] = [];
   advancedSearchParams: any;
-  characters$: Observable<CharacterResultModel[]>;
   favoriteCharacters: CharacterResultModel[] = [];
   readonly breadcrumb: PoBreadcrumb = {
     items: [{ label: 'Personagens', link: '/' }, { label: 'Adicionar Personagem Favorito' }]
@@ -54,16 +53,25 @@ export class NewCharactersComponent implements OnInit {
   constructor(
     private characterService: CharacterService,
     private store: Store<AppState>
-  ) {
-    this.characters$ = store.select('characters');
-    this.characters$.subscribe(response => {
-      this.favoriteCharacters = response;
-      this.checkAdded();
-    })
-  }
+  ) {  }
 
   ngOnInit() {
+    this.getFavoriteCharacters();
     this.getAll(1);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(
+      subscription => subscription.unsubscribe()
+    );
+  }
+
+  getFavoriteCharacters() {
+    const subscription = this.store.select('characters').subscribe(response => {
+      this.favoriteCharacters = response;
+      this.checkAdded();
+    });
+    this.subscriptions.push(subscription);
   }
 
   getAll(page: number, params?: any) {
