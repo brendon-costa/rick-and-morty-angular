@@ -3,8 +3,9 @@ import {Store} from "@ngrx/store";
 import {AppState} from "../../../../../core/model/app-state.model";
 import {Subscription} from "rxjs";
 import {CharacterResultModel} from "../../../model/character.model";
-import {PoBreadcrumb, PoPageAction, PoTableColumn} from "@po-ui/ng-components";
+import {PoDialogService, PoPageAction, PoTableAction, PoTableColumn} from "@po-ui/ng-components";
 import {Router} from "@angular/router";
+import {deleteCharacter} from "../../../state/actions/characteres.actions";
 
 @Component({
   selector: 'app-characters-managements',
@@ -24,10 +25,14 @@ export class CharactersManagementsComponent implements OnInit, OnDestroy {
     {property: 'species', label: 'Espécie'},
     {property: 'status', label: 'Status'},
   ];
+  readonly actionsTable: Array<PoTableAction> = [
+    { action: this.removeFavoriteCharacter.bind(this), icon: 'po-icon po-icon-delete', label: 'Remover' }
+];
 
   constructor(
     private store: Store<AppState>,
-    private route: Router
+    private route: Router,
+    private poDialog: PoDialogService,
   ) {}
 
   ngOnInit() {
@@ -43,8 +48,17 @@ export class CharactersManagementsComponent implements OnInit, OnDestroy {
   getFavoriteCharacters() {
     const subscription = this.store.select('characters').subscribe(response => {
       this.favoriteCharacters = response;
-      console.log(this.favoriteCharacters);
     });
     this.subscriptions.push(subscription);
+  }
+
+  removeFavoriteCharacter(character: CharacterResultModel) {
+    this.poDialog.confirm({
+      title: 'Confirmação',
+      message: 'Tem certeza que deseja deletar esse personagem dos seus favoritos?',
+      confirm: (): void => {
+        this.store.dispatch(deleteCharacter({ characterId: character.id }));
+      }
+    })
   }
 }

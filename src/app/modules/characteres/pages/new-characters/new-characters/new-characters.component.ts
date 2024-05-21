@@ -2,12 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CharacterService} from "../../../services/character.service";
 import {CharacterResultModel} from "../../../model/character.model";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {PoPageDynamicSearchFilters, PoPageDynamicSearchLiterals} from "@po-ui/ng-templates";
 import {ForceOptionComponentEnum, PoBreadcrumb} from "@po-ui/ng-components";
 import {AppState} from "../../../../../core/model/app-state.model";
 import {Store} from "@ngrx/store";
-import {addCharacter, deleteCharacter, updateCharacter } from '../../../state/actions/characteres.actions';
+import {addCharacter, deleteCharacter} from '../../../state/actions/characteres.actions';
 
 @Component({
   selector: 'app-new-characters',
@@ -142,9 +142,5 @@ export class NewCharactersComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(deleteCharacter({ characterId: character.id }));
     }
-  }
-
-  updateCharacter(character: CharacterResultModel) {
-    this.store.dispatch(updateCharacter({ character }));
   }
 }
