@@ -3,3 +3,5 @@ import {CharacterResultModel} from "../../modules/characteres/model/character.mo
 export interface AppState {
   characters: CharacterResultModel[];
 }
+
+export type appSateTypes = 'characters';
