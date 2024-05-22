@@ -1,7 +1,7 @@
-import {CharacterResultModel} from "../../modules/characteres/model/character.model";
+import {CharacterModel} from "../../modules/characteres/model/character.model";
 
 export interface AppState {
-  characters: CharacterResultModel[];
+  characters: CharacterModel[];
 }
 
 export type appSateTypes = 'characters';

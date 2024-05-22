@@ -1,18 +1,19 @@
-import {inject, OnDestroy, OnInit} from "@angular/core";
+import {Directive, inject, OnDestroy, OnInit} from "@angular/core";
 import {Subscription} from "rxjs";
 import {PoPageDynamicSearchFilters, PoPageDynamicSearchLiterals} from "@po-ui/ng-templates";
-import {CharacterService} from "../../modules/characteres/services/character.service";
 import {ActionCreator, Store} from "@ngrx/store";
 import {appSateTypes, AppState} from "../../core/model/app-state.model";
 import {HttpErrorResponse} from "@angular/common/http";
+import {NewFavoritePageItemContract} from "../contract/new-favorite-page-item.contract";
+import {NewFavoriteServiceContract} from "../contract/new-favorite-service.contract";
 
-export abstract class NewFavoritePageAbstract<Item> implements OnInit, OnDestroy {
+@Directive()
+export abstract class NewFavoritePageAbstract<Item extends NewFavoritePageItemContract> implements OnInit, OnDestroy {
 
   abstract customLiterals: PoPageDynamicSearchLiterals;
   abstract advancedSearchList: PoPageDynamicSearchFilters[];
 
-  service: CharacterService = inject(CharacterService);
-  store: Store<AppState> = inject(Store);
+  store: Store<any> = inject(Store);
 
   apiItemList: Item[] = [];
   itemList: Item[] = [];
@@ -25,6 +26,7 @@ export abstract class NewFavoritePageAbstract<Item> implements OnInit, OnDestroy
     protected storeName: appSateTypes,
     protected addItem: ActionCreator<string, (props: any) => any>,
     protected deleteItem: ActionCreator<string, (props: any) => any>,
+    protected service: NewFavoriteServiceContract<Item>,
   ) {
   }
 
@@ -41,7 +43,7 @@ export abstract class NewFavoritePageAbstract<Item> implements OnInit, OnDestroy
 
 
   getFavoriteCharacters() {
-    const subscription = this.store.select(this.storeName).subscribe(response => {
+    const subscription = this.store.select(this.storeName).subscribe((response) => {
       this.itemList = response;
       this.checkAdded();
     });
@@ -110,11 +112,11 @@ export abstract class NewFavoritePageAbstract<Item> implements OnInit, OnDestroy
     this.getAll(this.currentPage, this.advancedSearchParams);
   }
 
-  addCharacter(item: Item) {
+  addCharacter(item: any) {
     this.store.dispatch(this.addItem(item));
   }
 
-  deleteCharacter(item: Item) {
+  deleteCharacter(item: any) {
     this.store.dispatch(this.deleteItem(item));
   }
 }

@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
-import {CharacterResultModel} from "../../model/character.model";
+import {CharacterModel} from "../../model/character.model";
 import {addCharacter, deleteCharacter, updateCharacter} from "../actions/characteres.actions";
 
-export const initialState: CharacterResultModel[] = [];
+export const initialState: CharacterModel[] = [];
 
 export const characterReducer = createReducer(
   initialState,

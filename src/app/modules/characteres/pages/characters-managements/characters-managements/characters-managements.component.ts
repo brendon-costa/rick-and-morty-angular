@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {AppState} from "../../../../../core/model/app-state.model";
 import {Subscription} from "rxjs";
-import {CharacterResultModel} from "../../../model/character.model";
+import {CharacterModel} from "../../../model/character.model";
 import {PoDialogService, PoPageAction, PoTableAction, PoTableColumn} from "@po-ui/ng-components";
 import {Router} from "@angular/router";
 import {deleteCharacter} from "../../../state/actions/characteres.actions";
@@ -15,7 +15,7 @@ import {deleteCharacter} from "../../../state/actions/characteres.actions";
 export class CharactersManagementsComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
-  favoriteCharacters: CharacterResultModel[] = [];
+  favoriteCharacters: CharacterModel[] = [];
   readonly actions: PoPageAction[] = [
     { label: 'Novo favorito', action: () => {this.route.navigate(['/new-character']).then()}},
   ];
@@ -52,7 +52,7 @@ export class CharactersManagementsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscription);
   }
 
-  removeFavoriteCharacter(character: CharacterResultModel) {
+  removeFavoriteCharacter(character: CharacterModel) {
     this.poDialog.confirm({
       title: 'Confirmação',
       message: 'Tem certeza que deseja deletar esse personagem dos seus favoritos?',

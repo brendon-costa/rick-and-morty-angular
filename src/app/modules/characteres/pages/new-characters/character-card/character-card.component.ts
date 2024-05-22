@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CharacterResultModel} from "../../../model/character.model";
+import {CharacterModel} from "../../../model/character.model";
 
 @Component({
   selector: 'app-character-card',
@@ -7,9 +7,9 @@ import {CharacterResultModel} from "../../../model/character.model";
   styleUrl: './character-card.component.scss'
 })
 export class CharacterCardComponent {
-  @Input() character: CharacterResultModel | undefined;
+  @Input() character: CharacterModel | undefined;
   @Output() deleteAction: EventEmitter<number> = new EventEmitter<number>();
-  @Output() addAction: EventEmitter<CharacterResultModel> = new EventEmitter<CharacterResultModel>();
+  @Output() addAction: EventEmitter<CharacterModel> = new EventEmitter<CharacterModel>();
 
   buttonAction() {
     if (this.character?.added) {

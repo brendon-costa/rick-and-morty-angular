@@ -1,19 +1,6 @@
+import {NewFavoritePageItemContract} from "../../../shared/contract/new-favorite-page-item.contract";
 
-export interface CharacterModel {
-  info: CharacterInfoModel;
-  results: CharacterResultModel[];
-}
-
-export interface CharacterInfoModel {
-  count: number;
-  pages: number;
-  next: string;
-  prev: any;
-}
-
-export interface CharacterResultModel {
-  id: number;
-  added: boolean;
+export interface CharacterModel extends NewFavoritePageItemContract {
   name: string;
   status: string;
   species: string;

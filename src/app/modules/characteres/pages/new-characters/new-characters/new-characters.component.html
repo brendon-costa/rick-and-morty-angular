@@ -8,11 +8,11 @@
   (p-change-disclaimers)="disclaimerSearch($event)"
 >
   <div class="po-row">
-    <div *ngFor="let character of characterList" class="po-lg-6 po-md-6 po-sm-12 po-mb-3">
+    <div *ngFor="let character of apiItemList" class="po-lg-6 po-md-6 po-sm-12 po-mb-3">
       <app-character-card
         [character]="character"
-        (addAction)="addCharacter($event)"
-        (deleteAction)="deleteCharacter($event)"
+        (addAction)="addCharacter({ character: $event})"
+        (deleteAction)="deleteCharacter({ characterId: $event })"
       ></app-character-card>
     </div>
   </div>
