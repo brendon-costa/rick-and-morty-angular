@@ -54,7 +54,7 @@ export abstract class NewFavoritePageAbstract<Item extends NewFavoritePageItemCo
     this.loading = true;
     const subscription = this.service.getAll(page, params).subscribe({
       next: (response) => {
-        this.apiItemList = [...this.apiItemList, ...response.results];
+        this.apiItemList = this.apiItemList.concat(response.results);
         this.checkAdded();
         this.loading = false;
       },
@@ -66,18 +66,12 @@ export abstract class NewFavoritePageAbstract<Item extends NewFavoritePageItemCo
   }
 
   checkAdded() {
-    this.apiItemList = this.apiItemList.map(character => {
-      return {...character, added: false};
-    });
-    this.itemList.forEach(favorite => {
-      this.apiItemList = this.apiItemList.map(character => {
-        if (character.id == favorite.id) {
-          return {...character, added: true};
-        } else {
-          return character;
-        }
-      });
-    });
+    const addedMap = new Map<number, boolean>();
+    this.itemList.forEach(favorite => addedMap.set(favorite.id, true));
+    this.apiItemList = this.apiItemList.map(character => ({
+      ...character,
+      added: addedMap.get(character.id) ?? false
+    }));
   }
 
   fastSearch(search: string) {
