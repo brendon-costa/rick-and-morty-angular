@@ -2,7 +2,7 @@ import {Directive, inject, OnDestroy, OnInit} from "@angular/core";
 import {Subscription} from "rxjs";
 import {PoPageDynamicSearchFilters, PoPageDynamicSearchLiterals} from "@po-ui/ng-templates";
 import {ActionCreator, Store} from "@ngrx/store";
-import {appSateTypes, AppState} from "../../core/model/app-state.model";
+import {appSateTypes} from "../../core/model/app-state.model";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NewFavoritePageItemContract} from "../contract/new-favorite-page-item.contract";
 import {NewFavoriteServiceContract} from "../contract/new-favorite-service.contract";
@@ -21,6 +21,7 @@ export abstract class NewFavoritePageAbstract<Item extends NewFavoritePageItemCo
   loading = false;
   subscriptions: Subscription[] = [];
   advancedSearchParams: any;
+  addedList: boolean[] = [];
 
   protected constructor(
     protected storeName: appSateTypes,
@@ -40,7 +41,6 @@ export abstract class NewFavoritePageAbstract<Item extends NewFavoritePageItemCo
       subscription => subscription.unsubscribe()
     );
   }
-
 
   getFavoriteCharacters() {
     const subscription = this.store.select(this.storeName).subscribe((response) => {
@@ -66,12 +66,15 @@ export abstract class NewFavoritePageAbstract<Item extends NewFavoritePageItemCo
   }
 
   checkAdded() {
-    const addedMap = new Map<number, boolean>();
-    this.itemList.forEach(favorite => addedMap.set(favorite.id, true));
-    this.apiItemList = this.apiItemList.map(character => ({
-      ...character,
-      added: addedMap.get(character.id) ?? false
-    }));
+    this.addedList = [];
+    this.apiItemList.forEach((character, index) => {
+      this.addedList.push(false);
+      this.itemList.forEach(favorite => {
+        if(favorite.id == character.id) {
+          this.addedList[index] = true;
+        }
+      });
+    });
   }
 
   fastSearch(search: string) {

@@ -1,8 +1,8 @@
 <ng-container *ngIf="character">
   <po-widget
     class="po-row"
-    [p-primary]="character.added"
-    [p-primary-label]="character?.added ? 'Remover' : 'Adicionar'"
+    [p-primary]="added"
+    [p-primary-label]="added ? 'Remover' : 'Adicionar'"
     (p-primary-action)="buttonAction()"
   >
     <po-avatar class="po-md-4 po-sm-8" p-size="lg" [p-src]="character.image"></po-avatar>

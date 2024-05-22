@@ -14,14 +14,6 @@ export abstract class NewFavoriteServiceAbstract<Item extends NewFavoritePageIte
 
   getAll(page: number, filters?: any): Observable<ResponseListModel<Item[]>> {
     let params = {...{page}, ...filters};
-    return this.http.get<ResponseListModel<Item[]>>(this.microService, {params}).pipe(
-      map(response => {
-        response.results = response.results.map(result => {
-          result.added = false;
-          return result;
-        })
-        return response;
-      })
-    );
+    return this.http.get<ResponseListModel<Item[]>>(this.microService, {params});
   }
 }
