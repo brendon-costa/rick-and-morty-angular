@@ -32,7 +32,7 @@ export abstract class NewFavoritePageAbstract<Item extends NewFavoritePageItemCo
   }
 
   ngOnInit() {
-    this.getFavoriteCharacters();
+    this.getFavoriteList();
     this.getAll(1);
   }
 
@@ -42,7 +42,7 @@ export abstract class NewFavoritePageAbstract<Item extends NewFavoritePageItemCo
     );
   }
 
-  getFavoriteCharacters() {
+  getFavoriteList() {
     const subscription = this.store.select(this.storeName).subscribe((response) => {
       this.itemList = response;
       this.checkAdded();
